@@ -23,7 +23,7 @@ import (
 // }
 
 func start(w http.ResponseWriter, req *http.Request) {
-    fmt.Fprint(w, "starting")
+    fmt.Fprint(w, "Secret Santa is starting now!")
     spec := redis.DefaultSpec().Db(13).Password("")
     client, e := redis.NewSynchClientWithSpec(spec)
 

@@ -3,8 +3,8 @@ package main
 import (
     "net/http"
     "log"
-    "encoding/json"
     "redis"
+    "fmt"
 )
 
 type KeyVal struct {
@@ -12,6 +12,7 @@ type KeyVal struct {
 }
 
 func join(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprint(w, "You just joined Secret Santa!")
 	// create the Redis client
 	spec := redis.DefaultSpec().Db(13).Password("")
 	client, e := redis.NewSynchClientWithSpec(spec)
@@ -20,17 +21,7 @@ func join(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 		
-	decoder := json.NewDecoder(req.Body)
-	reqKeyVal := KeyVal{}
-	err := decoder.Decode(&reqKeyVal)
-	
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Println("reqKeyVal = " + reqKeyVal.Name)
-	
-	client.Set(reqKeyVal.Name, []byte("false"))
+	client.Set(req.URL.Query().Get("user_name"), []byte(""))
 	log.Println("Value set in Redis")
 	 
 }
