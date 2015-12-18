@@ -22,15 +22,3 @@ func helloworld(w http.ResponseWriter, req *http.Request) {
         //LOG: {"test": "that"}
     }
 }
-
-func join(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "joining")
-}
-
-func start(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "starting")
-}
-
-func stop(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "stopping!")
-}
