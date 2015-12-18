@@ -5,17 +5,22 @@ import (
     "net/http"
     "redis"
     "log"
-    "encoding/json"
-    "io"
+ //   "encoding/json"
+  //  "net/url"
 )
 
-type KeyVal struct {
-    Name string
-}
-
-type Message struct {
-	Name, Text string
-}
+// type SlackStruct struct {
+// 	User_name string
+// 	Token string
+// 	Team_id string
+// 	Team_domain string
+// 	Channel_id string
+// 	Channel_name string
+// 	User_id string
+// 	Command string
+// 	Text string
+// 	Response_url string
+// }
 
 func start(w http.ResponseWriter, req *http.Request) {
     fmt.Fprint(w, "starting")
@@ -28,29 +33,9 @@ func start(w http.ResponseWriter, req *http.Request) {
     }
 
     client.Flushall()
-    client.Set("asd", []byte("val"))
-
-    value, _ := client.Get("asd")
-
-    key := string(value[:])
-
-    log.Println(key)
-
-    fmt.Fprint(w, value)
 
     log.Println("GET params:", req.URL.Query());
 
-    decoder := json.NewDecoder(req.Body)
-
-	for {
-		var m Message
-		if err := decoder.Decode(&m); err == io.EOF {
-			break
-		} else if err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("%s: %s\n", m.Name, m.Text)
-	}
-
+    log.Println(req.URL.Query().Get("user_name"))
 
 }
