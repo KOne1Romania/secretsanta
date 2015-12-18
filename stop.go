@@ -9,7 +9,7 @@ import (
 )
 
 func stop(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "stopping!")
+    fmt.Fprintln(w, "Secret Santa assignments:")
 
     spec := redis.DefaultSpec().Db(13).Password("")
     client, e := redis.NewSynchClientWithSpec(spec)
@@ -23,6 +23,13 @@ func stop(w http.ResponseWriter, r *http.Request) {
     	client.Set(keys[i+1],[]byte(keys[i]))
     }
     client.Set(keys[0], []byte(keys[len(keys) - 1]))
+
+    for i := 0; i < len(keys); i++ {
+    	val, _ := client.Get(keys[i])
+    	fmt.Fprint(w,string(keys[i]))
+    	fmt.Fprint(w," - ")
+    	fmt.Fprintln(w,string(val[:]))
+    }
 
     client.Flushall()
 
